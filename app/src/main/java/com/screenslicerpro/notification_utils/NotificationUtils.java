@@ -2,6 +2,8 @@ package com.screenslicerpro.notification_utils;
 
 
 import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+import static android.app.PendingIntent.FLAG_MUTABLE;
 import static com.screenslicerpro.utils.UtilsKt.MY_INTENT_EXTRA;
 import static com.screenslicerpro.utils.UtilsKt.MY_VIEW_ID;
 
@@ -102,14 +104,14 @@ public class NotificationUtils {
     private static void setHomeIntent(Context context, RemoteViews notificationLayout) {
         Intent homeIntent = new Intent(context, MainActivity.class);
         PendingIntent homePendingIntent = PendingIntent.getActivity(context, 0 ,
-                homeIntent, 0);
+                homeIntent, FLAG_MUTABLE);
         notificationLayout.setOnClickPendingIntent(R.id.home_btn,homePendingIntent);
     }
 
     private static void setCloseIntent(Context context, RemoteViews notificationLayout) {
         Intent closeIntent = new Intent(context, NotificationBroadcastReceiver.class);
         PendingIntent closePendingIntent = PendingIntent.getBroadcast(context, 0 ,
-                closeIntent, 0);
+                closeIntent, FLAG_MUTABLE);
         notificationLayout.setOnClickPendingIntent(R.id.close_btn,closePendingIntent);
     }
 
@@ -140,7 +142,7 @@ public class NotificationUtils {
       PendingIntent cropWindowPendingIntent = PendingIntent.getService(context,
                 0 ,
                 cropWindowIntent,
-                FLAG_CANCEL_CURRENT);
+              FLAG_IMMUTABLE);
 
         notificationLayout.setOnClickPendingIntent(R.id.crop_window_btn, cropWindowPendingIntent);
 

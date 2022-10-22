@@ -8,6 +8,10 @@
             name="screenshot"
             type="com.screenslicerpro.database.ScreenshotItem" />
         <variable
+            name="viewModel"
+            type="com.screenslicerpro.main_fragment.MainFragmentViewModel" />
+
+        <variable
             name="clickListener"
             type="com.screenslicerpro.utils.ScreenshotListener"/>
     </data>
@@ -29,6 +33,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:screenshotUri="@{screenshot}"
+            app:mainFragmentViewModel="@{viewModel}"
             tools:srcCompat="@tools:sample/avatars"
             app:layout_constraintTop_toTopOf="parent" />
 

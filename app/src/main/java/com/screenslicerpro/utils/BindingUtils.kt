@@ -9,11 +9,12 @@ import com.screenslicerpro.R
 import com.screenslicerpro.database.ScreenshotItem
 import com.screenslicerpro.gestures.action.database.AppItem
 import com.screenslicerpro.gestures.view.viewmodel.GestureSettingsViewModel
+import com.screenslicerpro.main_fragment.MainFragmentViewModel
 import java.io.InputStream
 import java.lang.Exception
 
-@BindingAdapter("screenshotUri")
-fun ImageView.setScreenshotUri(item: ScreenshotItem?) {
+@BindingAdapter("screenshotUri", "mainFragmentViewModel")
+fun ImageView.setScreenshotUri(item: ScreenshotItem?,mainFragmentViewModel: MainFragmentViewModel?) {
     item?.let {
 
          val uriExist: Boolean = try {
@@ -28,10 +29,11 @@ fun ImageView.setScreenshotUri(item: ScreenshotItem?) {
             setImageURI(Uri.parse(item.uri))
         }
 
-            if (drawable == null) {
-                setBackgroundColor(Color.rgb(0, 0, 0))
-                setImageResource(R.drawable.ic_baseline_broken_image_24)
-            }
+        if (drawable == null) {
+            setBackgroundColor(Color.rgb(0, 0, 0))
+            setImageResource(R.drawable.ic_baseline_broken_image_24)
+            mainFragmentViewModel?.onDeleteListWithUri(listOf(item.uri))
+        }
         }
 
 

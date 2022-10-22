@@ -19,7 +19,7 @@ class FloatingImageView @JvmOverloads constructor(context: Context,
 init {
     attacher.setZoomable(false)
     attacher.setOnDoubleTapListener(object : GestureDetector.SimpleOnGestureListener() {
-        override fun onDoubleTap(e: MotionEvent?): Boolean {
+        override fun onDoubleTap(e: MotionEvent): Boolean {
 
             if (attacher.isZoomEnabled){
                 attacher.setZoomable(false)
@@ -42,7 +42,7 @@ init {
 
         doubleTapGesture = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
 
-            override fun onDoubleTap(e: MotionEvent?): Boolean {
+            override fun onDoubleTap(e: MotionEvent): Boolean {
 
                 if (!attacher.isZoomEnabled){
                     callBackForWindowManager.onClose()
@@ -56,16 +56,14 @@ init {
         this.callBackForWindowManager = onVIewCropWindowListener
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         doubleTapGesture.onTouchEvent(event)
-        val action = event?.actionMasked
+        val action = event.actionMasked
 
-        event?.let {
             if (event.pointerCount > 1){
                 isMultiTouch = true
             }
             mActivePointerId = event.getPointerId(0)
-        }
 
         when(action){
             MotionEvent.ACTION_DOWN -> {

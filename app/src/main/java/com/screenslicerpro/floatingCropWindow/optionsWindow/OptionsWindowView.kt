@@ -1,4 +1,6 @@
 package com.screenslicerpro.floatingCropWindow.optionsWindow
+
+
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 
@@ -23,6 +25,10 @@ import com.screenslicerpro.databinding.OptionsViewBinding
 import com.screenslicerpro.floatingCropWindow.cropWindow.CropView
 import com.screenslicerpro.utils.*
 
+private val downColor = R.color.primaryLightColor
+private val upColor = R.color.primaryColor
+private val disabledColor = R.color.Gray
+private var isActionMove = false
 
 class OptionsWindowView (private val context: Context,
                          private val cropView: CropView?) : View.OnTouchListener {
@@ -62,14 +68,20 @@ class OptionsWindowView (private val context: Context,
     fun createView() {
 
         setFloatingView()
+        setAllVariables()
+        reEnableButtons()
 
-       saveButton = mFloatingView?.save?.apply { setOnTouchListener(this@OptionsWindowView) }
-       deleteButton =  mFloatingView?.delete?.apply { setOnTouchListener(this@OptionsWindowView) }
-       shareButton = mFloatingView?.share?.apply { setOnTouchListener(this@OptionsWindowView) }
-       minMaxButton = mFloatingView?.minMax?.apply { setOnTouchListener(this@OptionsWindowView) }
-       editButton = mFloatingView?.edit?.apply { setOnTouchListener(this@OptionsWindowView) }
+    }
+
+    private fun setAllVariables() {
+
+        saveButton = mFloatingView?.save?.apply { setOnTouchListener(this@OptionsWindowView) }
+        deleteButton =  mFloatingView?.delete?.apply { setOnTouchListener(this@OptionsWindowView) }
+        shareButton = mFloatingView?.share?.apply { setOnTouchListener(this@OptionsWindowView) }
+        minMaxButton = mFloatingView?.minMax?.apply { setOnTouchListener(this@OptionsWindowView) }
+        editButton = mFloatingView?.edit?.apply { setOnTouchListener(this@OptionsWindowView) }
         extractTxtButton = mFloatingView?.extractText?.apply { setOnTouchListener(this@OptionsWindowView) }
-       copyTextBtn = mFloatingView?.copyText?.apply { setOnTouchListener(this@OptionsWindowView) }
+        copyTextBtn = mFloatingView?.copyText?.apply { setOnTouchListener(this@OptionsWindowView) }
 
         mainContainer = mFloatingView?.mainBtnContainer
 
@@ -85,6 +97,7 @@ class OptionsWindowView (private val context: Context,
         copyTextBk = mFloatingView?.copyTextBk
 
         extractedTextContainer = mFloatingView?.extractedTextContainer
+        extractedTextContainer?.visibility = View.GONE
         cropView?.thisOptionsView = this
 
         extractedTextEt?.setOnFocusChangeListener { view, b ->
@@ -112,7 +125,7 @@ class OptionsWindowView (private val context: Context,
         params.x = initialX
         params.y = initialY
         params.gravity =
-            Gravity.CENTER or Gravity.END //Initially view will be added to top-left corner
+            Gravity.CENTER //Initially view will be added to top-left corner
 
         mWindowManager?.updateViewLayout(mFloatingView?.root, params)
     }
@@ -136,7 +149,7 @@ class OptionsWindowView (private val context: Context,
 
         //Specify the view position
         params.gravity =
-            Gravity.CENTER or Gravity.END //Initially view will be added to top-left corner
+            Gravity.CENTER  //Initially view will be added to top-left corner
 
         //Add the view to the window
 
@@ -168,21 +181,38 @@ class OptionsWindowView (private val context: Context,
 
         when(event?.actionMasked){
             ACTION_DOWN -> {
+                initialX = params.x
+                initialY = params.y
+                initialTouchX = event.rawX
+                initialTouchY = event.rawY
+                isActionMove = false
                 setChangeColor(v?.id, ACTION_DOWN)
             }
+            ACTION_MOVE -> {
+                params.x = initialX + getMovementInX(event)
+                params.y = initialY + getMovementInY(event)
+                isActionMove = true
+                mWindowManager?.updateViewLayout(mFloatingView?.root, params)
+                return true
+            }
+
             ACTION_UP -> {
                 setChangeColor(v?.id, ACTION_UP)
-                onTouchButton(v?.id)
+                if (getMovementInX(event) == 0 || getMovementInY(event) == 0) onTouchButton(v?.id)
             }
         }
 
         return true
     }
+    private fun getMovementInY(event: MotionEvent): Int {
+        return  (event.rawY - initialTouchY).toInt()
+    }
+
+    private fun getMovementInX(event: MotionEvent): Int {
+        return  (event.rawX - initialTouchX).toInt()
+    }
 
     private fun setChangeColor(id: Int?, action: Int) {
-
-        val downColor = R.color.primaryLightColor
-        val upColor = R.color.primaryColor
 
         if (action == ACTION_DOWN){
 
@@ -224,6 +254,7 @@ class OptionsWindowView (private val context: Context,
             R.id.share ->{onOptionsWindowSelectedListener?.onShareScreenshotSelected()}
             R.id.edit ->{onOptionsWindowSelectedListener?.onEditScreenshotSelected()}
             R.id.min_max  ->{
+
                 setMinMax()
                 onOptionsWindowSelectedListener?.onMinimizeCropView()
             }
@@ -252,7 +283,7 @@ class OptionsWindowView (private val context: Context,
         } else {
             mainContainer?.visibility = View.VISIBLE
 
-            extractedTextContainer?.visibility = if (extractedTextEt?.text?.isNotBlank() == true) VISIBLE else GONE
+           // extractedTextContainer?.visibility = if (extractedTextEt?.text?.isNotBlank() == true) VISIBLE else GONE
             minMaxButton?.setImageResource(R.drawable.ic_min)
         }
     }
@@ -276,4 +307,57 @@ class OptionsWindowView (private val context: Context,
     fun hideProgressBar() {
         progressBar?.visibility = GONE
     }
+
+    fun disableActionButtons() {
+
+        extractedTextContainer?.visibility = View.GONE
+
+        saveButton?.setEnabledFeature(false, null)
+        saveButtonBc?.setEnabledFeature(false, disabledColor)
+
+        deleteButton?.setEnabledFeature(false, null)
+        deleteButtonBc?.setEnabledFeature(false, disabledColor)
+
+        shareButton?.setEnabledFeature(false, null)
+        shareButtonBc?.setEnabledFeature(false, disabledColor)
+
+        editButton?.setEnabledFeature(false, null)
+        editButtonBc?.setEnabledFeature(false, disabledColor)
+
+        extractTxtButton?.setEnabledFeature(false, null)
+        extractTxtBc?.setEnabledFeature(false, disabledColor)
+    }
+
+    fun reEnableButtons(){
+        saveButton?.setEnabledFeature(true, null)
+        saveButtonBc?.setEnabledFeature(true, upColor)
+
+        deleteButton?.setEnabledFeature(true, null)
+        deleteButtonBc?.setEnabledFeature(true, upColor)
+
+        shareButton?.setEnabledFeature(true, null)
+        shareButtonBc?.setEnabledFeature(true, upColor)
+
+        editButton?.setEnabledFeature(true, null)
+        editButtonBc?.setEnabledFeature(true, upColor)
+
+        extractTxtButton?.setEnabledFeature(true, null)
+        extractTxtBc?.setEnabledFeature(true, upColor)
+
+        minMaxButton?.setEnabledFeature(true, null)
+        minMaxButtonBk?.setEnabledFeature(true, upColor)
+    }
+}
+
+fun ImageView.setEnabledFeature(enabled: Boolean, backgroundColor: Int? ){
+    isEnabled = enabled
+
+    backgroundColor?.let {
+        DrawableCompat.setTint(
+            DrawableCompat.wrap(drawable),
+            ContextCompat.getColor(context, backgroundColor)
+        )
+    }
+
+
 }

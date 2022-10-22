@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Screen Slicer</string>
+    <string name="app_name">Screen Slicer Pro</string>
     <string name="text_copied">Texto Copiado</string>
     <string name="extracting">Extrayendo el texto, espere…</string>
     <string name="screenshot_deleted">Porción de pantalla borrado</string>

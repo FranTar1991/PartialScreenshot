@@ -377,7 +377,7 @@ class MainActivity : AppCompatActivity(), FloatingWindowListener, PermissionsDia
 
         if (bound) {
             cropServiceViewFloatingWindowService?.stopForeground(true)
-            cropServiceViewFloatingWindowService?.setServiceCallBacks(null, "destroy") // unregister
+           // cropServiceViewFloatingWindowService?.setServiceCallBacks(null, "destroy") // unregister
 
             unbindService(cropViewFloatingWindowServiceConnection)
             bound = false

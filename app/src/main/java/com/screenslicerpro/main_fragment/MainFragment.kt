@@ -137,7 +137,7 @@ class MainFragment : Fragment() {
 
     private fun shareThisItem(){
         val files: ArrayList<Uri> = ArrayList<Uri>()
-        uriList.forEach {
+        screenshotsSelected.toList().forEach {
             files.add(Uri.parse(it))
         }
 
@@ -274,8 +274,11 @@ class MainFragment : Fragment() {
                 }
             })
 
-        exitTransition = TransitionInflater.from(context)
-            .inflateTransition(R.transition.exit_transition)
+        context?.let {
+            exitTransition = TransitionInflater.from(it)
+                .inflateTransition(R.transition.exit_transition)
+        }
+
 
 
         mainActivityViewModel.permissionToSaveCalled.observe(viewLifecycleOwner, Observer {

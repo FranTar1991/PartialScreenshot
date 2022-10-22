@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Screen Slicer</string>
+    <string name="app_name" translatable="false">Screen Slicer Pro</string>
     <string name="start">Start Slicer Window</string>
     <string name="recording">Is ready to slice your screen</string>
     <string name="no_screenshots">Nothing to see here…</string>

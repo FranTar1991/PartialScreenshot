@@ -12,7 +12,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_btn_container"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/min_max_bk"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,6 @@
                 android:src="@drawable/rounded_button"
                 app:layout_constraintBottom_toTopOf="@+id/share_bk"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/save_bk" />
 
             <ImageView
@@ -47,7 +46,6 @@
                 android:src="@drawable/rounded_button"
                 app:layout_constraintBottom_toTopOf="@+id/edit_bk"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/delete__bk" />
 
             <ImageView
@@ -69,7 +67,6 @@
                 android:src="@drawable/rounded_button"
                 app:layout_constraintBottom_toTopOf="@+id/delete__bk"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
 
@@ -81,8 +78,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/save_bk"
                 app:layout_constraintEnd_toEndOf="@+id/save_bk"
                 app:layout_constraintStart_toStartOf="@+id/save_bk"
-                app:layout_constraintTop_toTopOf="@+id/save_bk"
-                />
+                app:layout_constraintTop_toTopOf="@+id/save_bk" />
 
             <ImageView
 
@@ -93,7 +89,6 @@
                 android:src="@drawable/rounded_button"
                 app:layout_constraintBottom_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/share_bk" />
 
             <ImageView
@@ -118,7 +113,6 @@
                 android:src="@drawable/rounded_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_bk" />
 
             <ImageView
@@ -130,6 +124,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/extract_text_bk"
                 app:layout_constraintStart_toStartOf="@+id/extract_text_bk"
                 app:layout_constraintTop_toTopOf="@+id/extract_text_bk" />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -150,7 +145,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_min"
             app:layout_constraintBottom_toBottomOf="@+id/min_max_bk"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/min_max_bk"
             app:layout_constraintStart_toStartOf="@+id/min_max_bk"
             app:layout_constraintTop_toTopOf="@+id/min_max_bk" />
 
@@ -238,6 +233,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 

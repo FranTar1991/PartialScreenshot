@@ -73,7 +73,7 @@ class FloatingImageViewService: Service() {
 
         doubleTapGesture = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
 
-            override fun onDoubleTap(e: MotionEvent?): Boolean {
+            override fun onDoubleTap(e: MotionEvent): Boolean {
                 manager.removeView(floatingImage)
                 return super.onDoubleTap(e)
             }
@@ -104,12 +104,12 @@ class FloatingImageViewService: Service() {
         }
 
         floatingImage.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener{
-            override fun onViewAttachedToWindow(p0: View?) {
+            override fun onViewAttachedToWindow(p0: View) {
                 floatingImage.setImageURI(mImageUri)
                 isFloatingWindowOn = true
             }
 
-            override fun onViewDetachedFromWindow(p0: View?) {
+            override fun onViewDetachedFromWindow(p0: View) {
                 isFloatingWindowOn = false
             }
 

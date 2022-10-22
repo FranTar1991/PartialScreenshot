@@ -169,7 +169,7 @@ class CustomConstraintLayout @JvmOverloads constructor(
 
         doubleTapGesture = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
 
-            override fun onSingleTapUp(event: MotionEvent?): Boolean {
+            override fun onSingleTapUp(event: MotionEvent): Boolean {
                 changeFlags(allFlags, 96)
                 stopHandler()
                 return super.onSingleTapUp(event)
